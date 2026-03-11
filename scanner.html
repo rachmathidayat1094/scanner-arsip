@@ -50,19 +50,25 @@ Arahkan kamera ke QR Arsip
 
 <script>
 
+let scanned = false;
+
 function onScanSuccess(decodedText){
+
+if(scanned) return;
+scanned = true;
 
 const id = decodedText.trim();
 
 alert("QR terbaca: " + id);
 
-window.location.href =
+const target =
 "https://script.google.com/macros/s/AKfycbxP-WCODMTFxirUFpJ0RTCwuKDu7P4EVaFCYIWNXhHf7RXJbaihX4lQpDUMbMIQK60P9w/exec?q=" + id;
+
+window.location.replace(target);
 
 }
 
 function onScanFailure(error){
-// ignore
 }
 
 const html5QrCode = new Html5QrcodeScanner(
@@ -76,9 +82,9 @@ qrbox:250
 html5QrCode.render(onScanSuccess,onScanFailure);
 
 </script>
-
 </body>
 </html>
+
 
 
 
