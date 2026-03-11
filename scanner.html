@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scanner Arsip</title>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f5f6fa;
+padding:20px;
+}
+
+#reader{
+width:320px;
+margin:auto;
+}
+
+h2{
+margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Scan QR Arsip</h2>
+
+<div id="reader"></div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbzuDRAlJzzdTLq_2mhtYjDx2pZx5H77mRGjtS3sPxpU3cj56vvFCpNwhKizOcTQSpMl/exec";
+
+function startScanner(){
+
+const qr = new Html5Qrcode("reader");
+
+qr.start(
+{ facingMode:"environment" },
+{ fps:10, qrbox:250 },
+
+(text)=>{
+
+window.location.href =
+GAS_URL + "?q=" + encodeURIComponent(text);
+
+}
+
+);
+
+}
+
+startScanner();
+
+</script>
+
+</body>
+</html>
