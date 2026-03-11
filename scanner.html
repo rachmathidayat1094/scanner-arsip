@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Scanner Arsip</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>QR Scanner Arsip</title>
+
 <script src="https://unpkg.com/html5-qrcode"></script>
+
 <style>
+
 body{
-font-family:Arial;
-text-align:center;
-background:#f5f6fa;
+font-family: Arial;
+background:#f1f5f9;
+margin:0;
 padding:20px;
+text-align:center;
+}
+
+h2{
+margin-bottom:10px;
 }
 
 #reader{
@@ -17,10 +28,14 @@ width:320px;
 margin:auto;
 }
 
-h2{
-margin-bottom:20px;
+.info{
+margin-top:15px;
+font-size:14px;
+color:#475569;
 }
+
 </style>
+
 </head>
 
 <body>
@@ -29,31 +44,36 @@ margin-bottom:20px;
 
 <div id="reader"></div>
 
+<div class="info">
+Arahkan kamera ke QR Arsip
+</div>
+
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzuDRAlJzzdTLq_2mhtYjDx2pZx5H77mRGjtS3sPxpU3cj56vvFCpNwhKizOcTQSpMl/exec";
+function onScanSuccess(decodedText){
 
-function startScanner(){
+const id = decodedText.trim();
 
-const qr = new Html5Qrcode("reader");
-
-qr.start(
-{ facingMode:"environment" },
-{ fps:10, qrbox:250 },
-
-(text)=>{
+alert("QR terbaca: " + id);
 
 window.location.href =
-GAS_URL + "?q=" + encodeURIComponent(text);
+"https://script.google.com/macros/s/AKfycbzuDRAlJzzdTLq_2mhtYjDx2pZx5H77mRGjtS3sPxpU3cj56vvFCpNwhKizOcTQSpMl/exec?q=" + id;
 
 }
 
+function onScanFailure(error){
+// ignore
+}
+
+const html5QrCode = new Html5QrcodeScanner(
+"reader",
+{
+fps:10,
+qrbox:250
+}
 );
 
-}
-
-startScanner();
+html5QrCode.render(onScanSuccess,onScanFailure);
 
 </script>
 
